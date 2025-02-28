@@ -41,6 +41,9 @@ android {
 
 dependencies {
 
+    implementation(projects.data)
+    implementation(projects.data.media)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
