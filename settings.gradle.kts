@@ -21,4 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Musigi"
 include(":app")
+include(":domain")
 include(":data")
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
