@@ -25,3 +25,8 @@ include(":domain")
 include(":data")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+include(":feature:miniplayer")
+include(":feature:album")
+include(":feature:library")
+include(":feature:currentplaying")
+include(":data:media")

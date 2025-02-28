@@ -45,6 +45,11 @@ dependencies {
     implementation(projects.data)
     implementation(projects.data.media)
 
+    implementation(projects.feature.album)
+    implementation(projects.feature.library)
+    implementation(projects.feature.miniplayer)
+    implementation(projects.feature.currentplaying)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
