@@ -6,7 +6,7 @@ import com.zs.jyoon.domain.model.Library
 import com.zs.jyoon.domain.repositoy.MediaRepository
 import javax.inject.Inject
 
-class GetLibraryUseCase @Inject constructor(
+class GetAlbum @Inject constructor(
     private val mediaRepository: MediaRepository,
     logger: Logger
 ) : BaseUseCase<Unit, Library>(
