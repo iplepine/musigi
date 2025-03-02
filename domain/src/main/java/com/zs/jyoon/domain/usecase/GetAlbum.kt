@@ -9,12 +9,17 @@ import javax.inject.Inject
 class GetAlbum @Inject constructor(
     private val mediaRepository: MediaRepository,
     logger: Logger
-) : BaseUseCase<String, Result<Album>>(
+) : BaseUseCase<GetAlbum.Params, Result<Album>>(
     logger
 ) {
-    override suspend fun execute(param: String): Result<Album> {
+    override suspend fun execute(param: Params): Result<Album> {
         return runCatching {
-            mediaRepository.getAlbum(param)
+            mediaRepository.getAlbum(param.artistName, param.albumId)
         }
     }
+
+    data class Params(
+        val artistName: String,
+        val albumId: String
+    )
 }

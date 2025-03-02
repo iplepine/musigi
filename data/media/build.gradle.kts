@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.zs.jyoon.media"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain)
+
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)
 
@@ -45,6 +47,17 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(libs.hilt.testing)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+
+    androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.mockk)
+
+    // ✅ Hilt 테스트 라이브러리 추가
+    androidTestImplementation(libs.hilt.testing)
+    kaptAndroidTest(libs.hilt.compiler)
 }
