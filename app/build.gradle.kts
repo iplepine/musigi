@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.zs.jyoon.musigi"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.zs.jyoon.musigi"
