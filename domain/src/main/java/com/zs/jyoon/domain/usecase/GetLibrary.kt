@@ -9,10 +9,12 @@ import javax.inject.Inject
 class GetLibrary @Inject constructor(
     private val mediaRepository: MediaRepository,
     logger: Logger
-) : BaseUseCase<Unit, Library>(
+) : BaseUseCase<Unit, Result<Library>>(
     logger
 ) {
-    override suspend fun execute(param: Unit): Library {
-        TODO("Not yet implemented")
+    override suspend fun execute(param: Unit): Result<Library> {
+        return runCatching {
+            mediaRepository.getLibrary()
+        }
     }
 }
