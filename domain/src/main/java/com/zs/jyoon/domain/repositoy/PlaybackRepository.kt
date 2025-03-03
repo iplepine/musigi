@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface PlaybackRepository {
     val currentPlayingList: StateFlow<List<MediaItem>>
-    fun setPlayingList(items: List<String>)
+    fun setPlayingList(items: List<MediaItem>)
 
-    val currentPlayingItem: StateFlow<MediaItem>
-    fun setCurrentPlayingItem(mediaItem: MediaItem)
+    val currentPlayingItem: StateFlow<MediaItem?>
+    fun setCurrentPlayingItem(mediaItem: MediaItem?)
 
     val currentSeekPosition: StateFlow<Long>
     fun setSeekPosition(seekPosition: Long)

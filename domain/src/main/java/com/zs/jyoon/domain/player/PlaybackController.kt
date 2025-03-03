@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface PlaybackController {
     val currentPlayingList: StateFlow<List<MediaItem>>
-    val currentMediaItem: StateFlow<MediaItem>
+    val currentMediaItem: StateFlow<MediaItem?>
     val seekPosition: StateFlow<Long>
     val isPlaying: StateFlow<Boolean>
 

@@ -40,40 +40,45 @@ android {
         compose = true
     }
 }
-
 dependencies {
+    // ✅ 프로젝트 모듈
     implementation(projects.domain)
-
     implementation(projects.data)
     implementation(projects.data.media)
-
     implementation(projects.feature.album)
     implementation(projects.feature.library)
     implementation(projects.feature.miniplayer)
     implementation(projects.feature.currentplaying)
 
-
+    // ✅ Core & Kotlin
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)
 
+    // ✅ Android Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
+    // ✅ Hilt (Dependency Injection)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
+    // ✅ Jetpack Compose (UI 관련)
+    implementation(platform(libs.androidx.compose.bom)) // ✅ Compose BOM 관리
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // ✅ Testing (Unit & UI Tests)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // ✅ Debugging & UI Testing
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

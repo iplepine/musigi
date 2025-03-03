@@ -6,6 +6,7 @@ import com.zs.jyoon.domain.core.player.type.MediaType
 data class Track(
     override val id: String,
     val info: TrackInfo,
+    override val image: String?,
     val uriString: String
 ) : MediaItem {
     override val title: String

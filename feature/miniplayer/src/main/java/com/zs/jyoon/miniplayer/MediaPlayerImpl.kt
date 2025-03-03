@@ -15,7 +15,7 @@ class MediaPlayerImpl @Inject constructor(
     override val currentPlayingList: StateFlow<List<MediaItem>>
         get() = playbackRepository.currentPlayingList
 
-    override val currentMediaItem: StateFlow<MediaItem>
+    override val currentMediaItem: StateFlow<MediaItem?>
         get() = playbackRepository.currentPlayingItem
 
     override val seekPosition: StateFlow<Long>

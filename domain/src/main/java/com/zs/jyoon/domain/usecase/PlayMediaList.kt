@@ -18,7 +18,7 @@ class PlayMediaList @Inject constructor(
         val playingStrategy = playbackRepository.currentPlayingStrategy.value
         when (playingStrategy) {
             PlayingStrategy.SEQUENTIAL -> {
-                playbackRepository.setPlayingList(playList.map { it.id })
+                playbackRepository.setPlayingList(playList)
                 playbackRepository.setCurrentPlayingItem(playList[param.startIndex])
             }
 
@@ -29,7 +29,7 @@ class PlayMediaList @Inject constructor(
                     shuffle()
                     add(0, startItem)
                 }
-                playbackRepository.setPlayingList(shuffledList.map { it.id })
+                playbackRepository.setPlayingList(shuffledList)
                 playbackRepository.setCurrentPlayingItem(startItem)
             }
         }

@@ -9,11 +9,12 @@ import com.zs.jyoon.domain.model.Library
 import com.zs.jyoon.domain.model.Track
 import com.zs.jyoon.domain.model.TrackInfo
 import com.zs.jyoon.domain.repositoy.MediaRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MediaRepositoryImpl @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : MediaRepository {
 
     private var cachedLibrary: Library? = null
@@ -33,16 +34,18 @@ class MediaRepositoryImpl @Inject constructor(
                         id = fileName,
                         info = TrackInfo(
                             title = fileName.removeSuffix(".mp3"),
-                            artist = artistName,
+                            artistName = artistName,
+                            albumTitle = albumName,
                             length = 0
                         ),
-                        uriString = getRawResourceUri(fileName).toString()
+                        uriString = getRawResourceUri(fileName).toString(),
+                        image = null
                     )
                 }
                 Album(
                     id = albumName,
                     info = AlbumInfo(
-                        art = "",
+                        art = "https://picsum.photos/250/250",
                         title = albumName,
                         artist = artistName
                     ),

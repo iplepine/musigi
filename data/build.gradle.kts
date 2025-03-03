@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain)
+
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)
 
