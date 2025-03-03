@@ -12,18 +12,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.zs.jyoon.currentplaying.ui.CurrentPlayingContent
 import com.zs.jyoon.domain.model.Track
 import com.zs.jyoon.domain.model.TrackInfo
-import com.zs.jyoon.library.LibraryScreen
 import com.zs.jyoon.miniplayer.ui.MiniPlayer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(
+    navController: NavHostController,
+    viewModel: MainViewModel = hiltViewModel()
+) {
     val sheetState =
         rememberModalBottomSheetState(skipPartiallyExpanded = true) // ✅ BottomSheet 상태 관리
     var showSheet by remember { mutableStateOf(false) } // ✅ Sheet 열고 닫기 관리
@@ -44,8 +46,8 @@ fun MainScreen(navController: NavHostController) {
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             NavHost(navController, startDestination = "library") {
-                composable("library") { LibraryScreen() }
-                composable("album") { LibraryScreen() }
+                addLibraryScreen(navController)
+                addAlbumScreen(navController)
             }
         }
 

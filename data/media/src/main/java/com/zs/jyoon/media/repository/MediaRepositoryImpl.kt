@@ -47,7 +47,7 @@ class MediaRepositoryImpl @Inject constructor(
                     info = AlbumInfo(
                         art = "https://picsum.photos/250/250",
                         title = albumName,
-                        artist = artistName
+                        artistName = artistName
                     ),
                     tracks = tracks
                 )

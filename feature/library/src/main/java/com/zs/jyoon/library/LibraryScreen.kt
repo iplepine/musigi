@@ -22,19 +22,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.zs.jyoon.domain.model.Album
 import com.zs.jyoon.domain.model.AlbumInfo
 
 @Composable
 fun LibraryScreen(
+    navController: NavHostController,
     viewModel: LibraryViewModel = hiltViewModel(),
 ) {
     val library = viewModel.library.collectAsStateWithLifecycle().value
 
     AlbumList(
         albums = library.artists.flatMap { it.albums },
-        onClickAlbum = { },
+        onClickAlbum = {
+            navController.navigate("album/${it.info.artistName}/${it.id}")
+        },
     )
 }
 
@@ -80,7 +84,7 @@ fun AlbumItem(album: Album, onClick: () -> Unit) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = album.info.artist,
+                text = album.info.artistName,
                 color = Color.Gray
             )
         }
@@ -96,7 +100,7 @@ fun AlbumListPreview() {
                 id = "1",
                 info = AlbumInfo(
                     title = "Album",
-                    artist = "Artist",
+                    artistName = "Artist",
                     art = "https://picsum.photos/250/250"
                 ),
                 tracks = emptyList()
@@ -105,7 +109,7 @@ fun AlbumListPreview() {
                 id = "2",
                 info = AlbumInfo(
                     title = "Album",
-                    artist = "Artist",
+                    artistName = "Artist",
                     art = "https://picsum.photos/250/250"
                 ),
                 tracks = emptyList()
@@ -114,7 +118,7 @@ fun AlbumListPreview() {
                 id = "3",
                 info = AlbumInfo(
                     title = "Album",
-                    artist = "Artist",
+                    artistName = "Artist",
                     art = "https://picsum.photos/250/250"
                 ),
                 tracks = emptyList()
@@ -132,7 +136,7 @@ fun AlbumItemPreview() {
             id = "1",
             info = AlbumInfo(
                 title = "Album",
-                artist = "Artist",
+                artistName = "Artist",
                 art = ""
             ),
             tracks = emptyList()
