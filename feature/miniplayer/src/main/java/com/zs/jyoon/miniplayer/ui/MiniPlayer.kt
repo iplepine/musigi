@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -15,8 +14,8 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,6 +37,7 @@ fun MiniPlayer(
     onClick: () -> Unit
 ) {
     val seekPosition = viewModel.seekPosition.collectAsStateWithLifecycle().value
+    val duration = viewModel.duration.collectAsStateWithLifecycle().value
     val isPlaying = viewModel.isPlaying.collectAsStateWithLifecycle().value
     val artistName = viewModel.artistName.collectAsStateWithLifecycle().value
     val albumTitle = viewModel.albumTitle.collectAsStateWithLifecycle().value
@@ -46,26 +46,30 @@ fun MiniPlayer(
 
     MiniPlayerContent(
         seekPosition = seekPosition,
+        duration = duration,
         isPlaying = isPlaying,
         artistName = artistName,
         albumTitle = albumTitle,
         artUriString = artUriString,
         trackName = trackName,
         onClick = onClick,
-        onClickToggle = viewModel::togglePlay
+        onClickToggle = viewModel::togglePlay,
+        seekTo = viewModel::seekTo
     )
 }
 
 @Composable
 fun MiniPlayerContent(
     seekPosition: Long,
+    duration: Long,
     isPlaying: Boolean,
     artistName: String,
     albumTitle: String,
     artUriString: String,
     trackName: String,
     onClick: () -> Unit,
-    onClickToggle: () -> Unit
+    onClickToggle: () -> Unit,
+    seekTo: (Float) -> Unit,
 ) {
     Surface(
         modifier = Modifier
@@ -75,11 +79,11 @@ fun MiniPlayerContent(
         color = MaterialTheme.colorScheme.surface
     ) {
         Column {
-            LinearProgressIndicator(
-                progress = { seekPosition.toFloat() / 100 },
-                color = MaterialTheme.colorScheme.onSurface,
+            Slider(
+                value = seekPosition.toFloat(),
+                valueRange = 0f..duration.toFloat(),
+                onValueChange = seekTo,
                 modifier = Modifier
-                    .height(1.dp)
                     .fillMaxWidth(),
             )
             Row(
@@ -123,8 +127,10 @@ fun MiniPlayerPreview() {
         trackName = "Track",
         isPlaying = true,
         seekPosition = 0,
+        duration = 1000,
         artUriString = "",
         onClick = {},
-        onClickToggle = {}
+        onClickToggle = {},
+        seekTo = {}
     )
 }

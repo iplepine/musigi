@@ -1,5 +1,7 @@
 package com.zs.jyoon.musigi.player
 
+import android.content.Context
+import android.media.AudioManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.Player
@@ -8,6 +10,8 @@ import com.zs.jyoon.domain.core.Logger
 import com.zs.jyoon.domain.core.player.type.RepeatType
 import com.zs.jyoon.domain.player.MediaPlayer
 import com.zs.jyoon.musigi.extension.toMedia3OrNull
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,13 +19,17 @@ import javax.inject.Singleton
 
 @Singleton
 class ExoPlayerConnector @Inject constructor(
+    @ApplicationContext context: Context,
     private val mediaPlayer: MediaPlayer,
     private val exoPlayer: ExoPlayer,
     private val logger: Logger
 ) {
 
     init {
-        mediaPlayer.setVolume(30f)
+        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        mediaPlayer.setVolume(currentVolume.toFloat())
+
         exoPlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 logger.e("ExoPlayerConnector", "PlaybackState: $playbackState")
@@ -47,6 +55,8 @@ class ExoPlayerConnector @Inject constructor(
         lifecycleOwner.lifecycleScope.launch { connectIsPlaying() }
         lifecycleOwner.lifecycleScope.launch { connectRepeatMode() }
         lifecycleOwner.lifecycleScope.launch { connectVolume() }
+
+        lifecycleOwner.lifecycleScope.launch { syncSeekBar() }
     }
 
     /**
@@ -80,7 +90,7 @@ class ExoPlayerConnector @Inject constructor(
      * SeekBar 변경 감지 → ExoPlayer에 반영
      */
     private suspend fun connectSeekPosition() {
-        mediaPlayer.seekPosition.collectLatest { position ->
+        mediaPlayer.seekToPosition.collectLatest { position ->
             exoPlayer.seekTo(position)
             logger.d("ExoPlayerConnector", "SeekPosition: $position")
         }
@@ -120,6 +130,14 @@ class ExoPlayerConnector @Inject constructor(
             exoPlayer.volume = volume
 
             logger.d("ExoPlayerConnector", "Volume: $volume")
+        }
+    }
+
+    private suspend fun syncSeekBar() {
+        while (true) {
+            mediaPlayer.updateSeekPosition(exoPlayer.currentPosition)
+            mediaPlayer.updateDuration(exoPlayer.duration)
+            delay(500L)
         }
     }
 }

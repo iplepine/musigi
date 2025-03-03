@@ -3,12 +3,12 @@ package com.zs.jyoon.album.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zs.jyoon.domain.core.Logger
 import com.zs.jyoon.domain.core.player.type.PlayingStrategy
 import com.zs.jyoon.domain.model.Album
 import com.zs.jyoon.domain.model.Track
 import com.zs.jyoon.domain.player.MediaPlayer
 import com.zs.jyoon.domain.repositoy.MediaRepository
-import com.zs.jyoon.domain.repositoy.PlaybackRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,18 +22,18 @@ import javax.inject.Inject
 class AlbumViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val mediaRepository: MediaRepository,
-    private val playbackRepository: PlaybackRepository,
-    private val mediaPlayer: MediaPlayer
+    private val mediaPlayer: MediaPlayer,
+    private val logger: Logger
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<UIState> = MutableStateFlow(UIState.Loading)
     val uiState: StateFlow<UIState> = _uiState
 
     val currentPlayingTrack: StateFlow<Track?> =
-        playbackRepository.currentPlayingItem.filterIsInstance(Track::class).stateIn(
+        mediaPlayer.currentMediaItem.filterIsInstance<Track>().stateIn(
             viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = null
+            SharingStarted.WhileSubscribed(),
+            null
         )
 
     init {

@@ -21,6 +21,7 @@ class MiniPlayerViewModel @Inject constructor(
 
     val isPlaying: StateFlow<Boolean> = mediaPlayer.isPlaying
     val seekPosition: StateFlow<Long> = mediaPlayer.seekPosition
+    val duration: StateFlow<Long> = mediaPlayer.duration
 
     init {
         viewModelScope.launch {
@@ -38,6 +39,12 @@ class MiniPlayerViewModel @Inject constructor(
             mediaPlayer.pause()
         } else {
             mediaPlayer.play()
+        }
+    }
+
+    fun seekTo(position: Float) {
+        viewModelScope.launch {
+            mediaPlayer.seekTo(position.toLong())
         }
     }
 }
