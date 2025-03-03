@@ -5,7 +5,7 @@ import com.zs.jyoon.domain.player.MediaPlayer
 import com.zs.jyoon.domain.repositoy.MediaRepository
 import com.zs.jyoon.domain.repositoy.PlaybackRepository
 import com.zs.jyoon.media.repository.MediaRepositoryImpl
-import com.zs.jyoon.miniplayer.MediaPlayerImpl
+import com.zs.jyoon.domain.player.MediaPlayerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

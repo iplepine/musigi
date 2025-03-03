@@ -38,7 +38,7 @@ class MediaRepositoryImpl @Inject constructor(
                             albumTitle = albumName,
                             length = 0
                         ),
-                        uriString = getRawResourceUri(fileName).toString(),
+                        sourceString = getAssetsUri(artistName, albumName, fileName).toString(),
                         image = "https://picsum.photos/250/250"
                     )
                 }
@@ -82,10 +82,8 @@ class MediaRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private fun getRawResourceUri(fileName: String): Uri {
-        val resourceId = context.resources.getIdentifier(
-            fileName.removeSuffix(".mp3"), "raw", context.packageName
-        )
-        return Uri.parse("android.resource://${context.packageName}/$resourceId")
+    private fun getAssetsUri(artistName: String, albumName: String, fileName: String): Uri {
+        return Uri.parse("file:///android_asset/tracks/$artistName/$albumName/$fileName")
     }
+
 }

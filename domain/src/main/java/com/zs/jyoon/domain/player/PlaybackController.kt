@@ -10,6 +10,8 @@ interface PlaybackController {
     val isPlaying: StateFlow<Boolean>
 
     fun play()
+    fun playItem(item: MediaItem)
+    fun playList(list: List<MediaItem>)
     fun pause()
     fun seekTo(position: Long)
 }

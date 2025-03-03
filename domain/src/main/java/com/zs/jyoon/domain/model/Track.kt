@@ -7,7 +7,7 @@ data class Track(
     override val id: String,
     val info: TrackInfo,
     override val image: String?,
-    val uriString: String
+    override val sourceString: String
 ) : MediaItem {
     override val title: String
         get() = info.title

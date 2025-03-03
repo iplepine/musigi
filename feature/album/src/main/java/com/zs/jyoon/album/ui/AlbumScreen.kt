@@ -90,6 +90,29 @@ fun AlbumContent(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // 앨범 전체 재생 버튼
+            Row {
+                Button(
+                    onClick = onPlayAlbum,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(16.dp)
+                ) {
+                    Text("전체 재생")
+                }
+
+                Button(
+                    onClick = onPlayAlbum,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(16.dp)
+                ) {
+                    Text("셔플")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             // 곡 목록 표시
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
@@ -101,16 +124,6 @@ fun AlbumContent(
                         isPlaying = currentPlayingTrack == track
                     )
                 }
-            }
-
-            // 앨범 전체 재생 버튼
-            Button(
-                onClick = onPlayAlbum,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text("임의 재생")
             }
         }
     }
@@ -165,7 +178,7 @@ fun AlbumContentPreview() {
                     albumTitle = "Album Title",
                     length = 0
                 ),
-                uriString = "uriString",
+                sourceString = "uriString",
                 image = "https://picsum.photos/250/250"
             ),
             Track(
@@ -176,7 +189,7 @@ fun AlbumContentPreview() {
                     albumTitle = "Album Title2",
                     length = 0
                 ),
-                uriString = "uriString",
+                sourceString = "uriString",
                 image = "https://picsum.photos/250/250"
             ),
         )
@@ -191,7 +204,7 @@ fun AlbumContentPreview() {
                 albumTitle = "Album Title",
                 length = 0
             ),
-            uriString = "uriString",
+            sourceString = "uriString",
             image = "https://picsum.photos/250/250"
         ),
         onPlayAlbum = {},

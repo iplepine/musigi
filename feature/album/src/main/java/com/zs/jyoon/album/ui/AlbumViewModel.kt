@@ -3,8 +3,10 @@ package com.zs.jyoon.album.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zs.jyoon.domain.core.player.type.PlayingStrategy
 import com.zs.jyoon.domain.model.Album
 import com.zs.jyoon.domain.model.Track
+import com.zs.jyoon.domain.player.MediaPlayer
 import com.zs.jyoon.domain.repositoy.MediaRepository
 import com.zs.jyoon.domain.repositoy.PlaybackRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class AlbumViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val mediaRepository: MediaRepository,
-    private val playbackRepository: PlaybackRepository
+    private val playbackRepository: PlaybackRepository,
+    private val mediaPlayer: MediaPlayer
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<UIState> = MutableStateFlow(UIState.Loading)
@@ -46,15 +49,20 @@ class AlbumViewModel @Inject constructor(
     }
 
     fun playAlbum() {
-
+        val state = uiState.value as? UIState.Success ?: return
+        mediaPlayer.playList(state.album.tracks)
     }
 
     fun playWithShuffle() {
-
+        val state = uiState.value as? UIState.Success ?: return
+        mediaPlayer.setPlayingStrategy(PlayingStrategy.SHUFFLE)
+        mediaPlayer.playList(state.album.tracks)
     }
 
     fun playTrack(track: Track) {
-
+        val state = uiState.value as? UIState.Success ?: return
+        mediaPlayer.playList(state.album.tracks)
+        mediaPlayer.playItem(track)
     }
 
     sealed interface UIState {

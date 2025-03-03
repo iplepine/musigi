@@ -1,16 +1,17 @@
-package com.zs.jyoon.miniplayer
+package com.zs.jyoon.domain.player
 
 import com.zs.jyoon.domain.core.player.model.MediaItem
 import com.zs.jyoon.domain.core.player.type.PlayingStrategy
 import com.zs.jyoon.domain.core.player.type.RepeatType
-import com.zs.jyoon.domain.player.MediaPlayer
 import com.zs.jyoon.domain.repositoy.PlaybackRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MediaPlayerImpl @Inject constructor(
-    private val playbackRepository: PlaybackRepository
+    private val playbackRepository: PlaybackRepository,
 ) : MediaPlayer {
     override val currentPlayingList: StateFlow<List<MediaItem>>
         get() = playbackRepository.currentPlayingList
@@ -28,6 +29,16 @@ class MediaPlayerImpl @Inject constructor(
         _isPlaying.value = true
     }
 
+    override fun playItem(item: MediaItem) {
+        playbackRepository.setCurrentPlayingItem(item)
+        _isPlaying.value = true
+    }
+
+    override fun playList(list: List<MediaItem>) {
+        playbackRepository.setPlayingList(list)
+        _isPlaying.value = true
+    }
+
     override fun pause() {
         _isPlaying.value = false
     }
@@ -36,15 +47,17 @@ class MediaPlayerImpl @Inject constructor(
         playbackRepository.setSeekPosition(position)
     }
 
+    private val _volume: MutableStateFlow<Float> = MutableStateFlow(0f)
     override val volume: StateFlow<Float>
-        get() = TODO("Not yet implemented")
+        get() = _volume
+
     override val repeatType: StateFlow<RepeatType>
         get() = playbackRepository.currentRepeatType
     override val playingStrategy: StateFlow<PlayingStrategy>
         get() = playbackRepository.currentPlayingStrategy
 
     override fun setVolume(volume: Float) {
-        TODO("Not yet implemented")
+        _volume.value = volume
     }
 
     override fun setRepeatType(repeatType: RepeatType) {

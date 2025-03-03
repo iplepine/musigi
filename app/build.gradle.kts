@@ -65,6 +65,7 @@ dependencies {
 
     // ✅ Hilt (Dependency Injection)
     implementation(libs.hilt)
+    implementation(libs.androidx.lifecycle.process)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
@@ -76,6 +77,11 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // exoplayer
+    implementation(libs.androidx.media3.exoplayer) // ✅ ExoPlayer 핵심 라이브러리
+    implementation(libs.androidx.media3.ui) // ✅ ExoPlayer UI (선택 사항)
+    implementation(libs.androidx.media3.session) // ✅ MediaSession 지원 (선택 사항)
 
     // ✅ Testing (Unit & UI Tests)
     testImplementation(libs.junit)

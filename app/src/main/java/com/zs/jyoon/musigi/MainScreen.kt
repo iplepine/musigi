@@ -66,7 +66,7 @@ fun MainScreen(
                             albumTitle = "albumTitle",
                             length = 0
                         ),
-                        uriString = "uriString",
+                        sourceString = "uriString",
                         image = null
                     ),
                     progress = 0f,

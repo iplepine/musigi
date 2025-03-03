@@ -11,6 +11,7 @@ import javax.inject.Inject
 // TODO 로컬 저장소에 저장 필요
 class PlaybackRepositoryImpl @Inject constructor(
 ) : PlaybackRepository {
+
     private val _currentPlayingList = MutableStateFlow<List<MediaItem>>(emptyList())
     override val currentPlayingList: StateFlow<List<MediaItem>>
         get() = _currentPlayingList
