@@ -39,7 +39,7 @@ class MediaRepositoryImpl @Inject constructor(
                             length = 0
                         ),
                         uriString = getRawResourceUri(fileName).toString(),
-                        image = null
+                        image = "https://picsum.photos/250/250"
                     )
                 }
                 Album(
@@ -73,6 +73,7 @@ class MediaRepositoryImpl @Inject constructor(
         } ?: throw IllegalArgumentException("Album not found")
     }
 
+    // TODO 음악 파일에서 이미지 resource 추출 필요
     override suspend fun getTrackArt(
         artistId: String,
         albumId: String,

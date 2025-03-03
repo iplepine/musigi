@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import com.zs.jyoon.library.LibraryScreen
+import androidx.navigation.compose.rememberNavController
 import com.zs.jyoon.musigi.ui.theme.MusigiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,9 +15,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MusigiTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LibraryScreen()
-                }
+                val navController = rememberNavController()
+                MainScreen(navController)
             }
         }
     }

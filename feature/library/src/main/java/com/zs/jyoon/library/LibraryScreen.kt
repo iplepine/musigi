@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,59 +25,34 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.zs.jyoon.domain.model.Album
 import com.zs.jyoon.domain.model.AlbumInfo
-import com.zs.jyoon.domain.model.Track
-import com.zs.jyoon.domain.model.TrackInfo
-import com.zs.jyoon.miniplayer.ui.MiniPlayer
 
 @Composable
 fun LibraryScreen(
     viewModel: LibraryViewModel = hiltViewModel(),
 ) {
     val library = viewModel.library.collectAsStateWithLifecycle().value
-    val currentPlayingTrack = viewModel.currentPlayingTrack.collectAsStateWithLifecycle().value
 
     AlbumList(
         albums = library.artists.flatMap { it.albums },
-        currentPlayingTrack = currentPlayingTrack,
         onClickAlbum = { },
-        onClickMiniPlayer = { }
     )
 }
 
 @Composable
 fun AlbumList(
     albums: List<Album>,
-    currentPlayingTrack: Track?, // 현재 재생 중인 곡
     onClickAlbum: (Album) -> Unit,
-    onClickMiniPlayer: () -> Unit
 ) {
-    Scaffold(
-        bottomBar = {
-            MiniPlayer(
-                artistName = currentPlayingTrack?.info?.artistName,
-                albumTitle = currentPlayingTrack?.info?.albumTitle,
-                trackName = currentPlayingTrack?.info?.title,
-                isPlaying = true,
-                seekPosition = 0,
-                artUriString = currentPlayingTrack?.image,
-                onClick = onClickMiniPlayer,
-                onClickToggle = { }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        items(albums) { album ->
+            AlbumItem(
+                album = album,
+                onClick = { onClickAlbum(album) }
             )
-        }
-    ) { paddingValues ->
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentPadding = paddingValues
-        ) {
-            items(albums) { album ->
-                AlbumItem(
-                    album = album,
-                    onClick = { onClickAlbum(album) }
-                )
-            }
         }
     }
 }
@@ -146,19 +120,7 @@ fun AlbumListPreview() {
                 tracks = emptyList()
             ),
         ),
-        currentPlayingTrack = Track(
-            id = "1",
-            info = TrackInfo(
-                title = "Track",
-                artistName = "Artist",
-                albumTitle = "Album",
-                length = 0
-            ),
-            uriString = "",
-            image = "https://picsum.photos/250/250"
-        ),
         onClickAlbum = {},
-        onClickMiniPlayer = {}
     )
 }
 
