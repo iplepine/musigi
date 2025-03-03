@@ -33,6 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    composeCompiler {
+        stabilityConfigurationFile =
+            rootProject.layout.projectDirectory.file("stability_config.conf")
+    }
 }
 
 dependencies {
