@@ -36,7 +36,7 @@ class PlaybackRepositoryImpl @Inject constructor(
         _currentSeekPosition.value = seekPosition
     }
 
-    private val _currentRepeatType = MutableStateFlow(RepeatType.NONE)
+    private val _currentRepeatType = MutableStateFlow(RepeatType.ALL)
     override val currentRepeatType: StateFlow<RepeatType>
         get() = _currentRepeatType
 

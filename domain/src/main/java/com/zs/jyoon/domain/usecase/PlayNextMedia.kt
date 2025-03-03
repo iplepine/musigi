@@ -14,6 +14,8 @@ class PlayNextMedia @Inject constructor(
 ) {
     override suspend fun execute(param: Unit): Boolean {
         val currentPlayingList = playbackRepository.currentPlayingList.value
+        if (currentPlayingList.isEmpty()) return false
+        
         val currentPlayingItem = playbackRepository.currentPlayingItem.value
         val currentIndex = currentPlayingList.indexOf(currentPlayingItem)
 
@@ -37,7 +39,9 @@ class PlayNextMedia @Inject constructor(
             }
 
             RepeatType.ALL -> {
-                playbackRepository.setCurrentPlayingItem(currentPlayingList.first())
+                val nextItem =
+                    currentPlayingList.getOrElse(currentIndex + 1) { currentPlayingList.first() }
+                playbackRepository.setCurrentPlayingItem(nextItem)
                 playbackRepository.setSeekPosition(0)
                 true
             }

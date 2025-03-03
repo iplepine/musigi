@@ -15,9 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.zs.jyoon.currentplaying.ui.CurrentPlayingContent
-import com.zs.jyoon.domain.model.Track
-import com.zs.jyoon.domain.model.TrackInfo
+import com.zs.jyoon.currentplaying.ui.CurrentPlayingScreen
 import com.zs.jyoon.miniplayer.ui.MiniPlayer
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,30 +47,7 @@ fun MainScreen(
                 onDismissRequest = { showSheet = false }, // ✅ 닫기
                 sheetState = sheetState
             ) {
-                CurrentPlayingContent(
-                    isPlaying = false,
-                    currentTrack = Track(
-                        id = "id",
-                        info = TrackInfo(
-                            title = "title",
-                            artistName = "artistName",
-                            albumTitle = "albumTitle",
-                            length = 0
-                        ),
-                        sourceString = "uriString",
-                        image = null
-                    ),
-                    progress = 0f,
-                    volume = 0f,
-                    onTogglePlayPause = { },
-                    onSeekChanged = { },
-                    onPrevious = { },
-                    onNext = { },
-                    onShuffle = { },
-                    onRepeat = { },
-                    onVolumeChange = { },
-                    onClose = { showSheet = false } // ✅ Sheet 닫기
-                )
+                CurrentPlayingScreen()
             }
         }
     }
