@@ -8,7 +8,7 @@ abstract class BaseUseCase<PARAM, RESULT>(
     suspend operator fun invoke(param: PARAM): RESULT {
         return execute(param).apply {
             logger.d(
-                "AppLogger|" + this@BaseUseCase::class.java.simpleName,
+                "UseCase|" + this@BaseUseCase::class.java.simpleName,
                 "param : $param, result : $this"
             )
         }

@@ -9,8 +9,12 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.zs.jyoon.domain.core.Logger
 import com.zs.jyoon.domain.core.player.type.RepeatType
 import com.zs.jyoon.domain.player.MediaPlayer
+import com.zs.jyoon.domain.usecase.PlayNextMedia
 import com.zs.jyoon.musigi.extension.toMedia3OrNull
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,8 +26,11 @@ class ExoPlayerConnector @Inject constructor(
     @ApplicationContext context: Context,
     private val mediaPlayer: MediaPlayer,
     private val exoPlayer: ExoPlayer,
+    private val playNextMedia: PlayNextMedia,
     private val logger: Logger
 ) {
+
+    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     init {
         val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -32,7 +39,22 @@ class ExoPlayerConnector @Inject constructor(
 
         exoPlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
-                logger.e("ExoPlayerConnector", "PlaybackState: $playbackState")
+                when (playbackState) {
+                    Player.STATE_READY -> {
+                        logger.e("ExoPlayerConnector", "PlaybackState: STATE_READY")
+                        mediaPlayer.play()
+                    }
+
+                    Player.STATE_ENDED -> {
+                        logger.e("ExoPlayerConnector", "PlaybackState: STATE_ENDED")
+                        coroutineScope.launch { playNextMedia.invoke(Unit) }
+                    }
+
+                    Player.STATE_IDLE -> {
+                        logger.e("ExoPlayerConnector", "PlaybackState: STATE_IDLE")
+                        mediaPlayer.pause()
+                    }
+                }
             }
 
             override fun onRepeatModeChanged(repeatMode: Int) {

@@ -5,10 +5,10 @@ import com.zs.jyoon.domain.core.Logger
 
 object AppLogger : Logger {
     override fun d(tag: String, message: String) {
-        Log.d(tag, message)
+        Log.d("AppLogger | $tag", message)
     }
 
     override fun e(tag: String, message: String) {
-        Log.e(tag, message)
+        Log.e("AppLogger | $tag", message)
     }
 }
