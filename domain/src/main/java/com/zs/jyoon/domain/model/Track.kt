@@ -12,5 +12,8 @@ data class Track(
     override val title: String
         get() = info.title
 
+    override val artistName: String
+        get() = info.artistName
+
     override val mediaType: MediaType = MediaType.AUDIO
 }

@@ -33,14 +33,7 @@ fun MainScreen(
     Scaffold(
         bottomBar = {
             MiniPlayer(
-                artistName = "artistName",
-                albumTitle = "albumTitle",
-                trackName = "trackName",
-                isPlaying = false,
-                seekPosition = 0,
-                artUriString = "artUriString",
                 onClick = { showSheet = true }, // ✅ Sheet 열기
-                onClickToggle = { } // ✅ 재생/일시정지
             )
         }
     ) { paddingValues ->

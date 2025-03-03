@@ -25,18 +25,45 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun MiniPlayer(
-    artistName: String?,
-    albumTitle: String?,
-    trackName: String?,
-    isPlaying: Boolean = false,
-    seekPosition: Int = 0,
-    artUriString: String?,
+    viewModel: MiniPlayerViewModel = hiltViewModel(),
+    onClick: () -> Unit
+) {
+    val seekPosition = viewModel.seekPosition.collectAsStateWithLifecycle().value
+    val isPlaying = viewModel.isPlaying.collectAsStateWithLifecycle().value
+    val artistName = viewModel.artistName.collectAsStateWithLifecycle().value
+    val albumTitle = viewModel.albumTitle.collectAsStateWithLifecycle().value
+    val artUriString = viewModel.artUriString.collectAsStateWithLifecycle().value
+    val trackName = viewModel.trackName.collectAsStateWithLifecycle().value
+
+    MiniPlayerContent(
+        seekPosition = seekPosition,
+        isPlaying = isPlaying,
+        artistName = artistName,
+        albumTitle = albumTitle,
+        artUriString = artUriString,
+        trackName = trackName,
+        onClick = onClick,
+        onClickToggle = viewModel::togglePlay
+    )
+}
+
+@Composable
+fun MiniPlayerContent(
+    seekPosition: Long,
+    isPlaying: Boolean,
+    artistName: String,
+    albumTitle: String,
+    artUriString: String,
+    trackName: String,
     onClick: () -> Unit,
     onClickToggle: () -> Unit
 ) {
@@ -69,11 +96,9 @@ fun MiniPlayer(
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(text = albumTitle ?: "재생 중인 음악이 없습니다.")
-                    Text(
-                        text = artistName ?: "가수 없음",
-                        color = Color.Gray
-                    )
+                    Text(text = trackName, fontWeight = FontWeight.Bold)
+                    Text(text = albumTitle)
+                    Text(text = artistName, color = Color.Gray)
                 }
 
                 Image(
@@ -92,7 +117,7 @@ fun MiniPlayer(
 @Composable
 @Preview
 fun MiniPlayerPreview() {
-    MiniPlayer(
+    MiniPlayerContent(
         artistName = "Artist",
         albumTitle = "Album",
         trackName = "Track",

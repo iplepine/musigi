@@ -36,6 +36,7 @@ class MediaPlayerImpl @Inject constructor(
 
     override fun playList(list: List<MediaItem>) {
         playbackRepository.setPlayingList(list)
+        playbackRepository.setCurrentPlayingItem(list.first())
         _isPlaying.value = true
     }
 

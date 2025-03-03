@@ -6,6 +6,7 @@ interface MediaItem {
     val id: String
     val title: String
     val image: String?
+    val artistName: String
     val mediaType: MediaType
     val sourceString: String
 }
